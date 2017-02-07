@@ -2,6 +2,7 @@ package cellsociety_team06;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
 import javafx.animation.Timeline;
@@ -24,6 +25,7 @@ public abstract class Model {
 	private Stage myStage;
 	private Timeline animation;
 	private Group root;
+	private ResourceBundle myResources;
 	
 	private double initialRate;
 	private Slider speedSlide;
@@ -33,7 +35,7 @@ public abstract class Model {
 	
 	
 	//constructor
-	public Model (Stage s, Timeline t){
+	public Model (Stage s, Timeline t, ResourceBundle r){
 		myStage = s;
 		animation = t;
 		myResources = r;
@@ -93,7 +95,7 @@ public abstract class Model {
 	}
 	
 	public Button createResetBtn(){
-		
+		animation.setRate(initialRate);
 		Button btn_reset = new Button("Reset");
 		btn_reset.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg){
@@ -130,7 +132,7 @@ public abstract class Model {
 	}
 	
 	public Button createHomeBtn(Scene homeScene){
-		
+		animation.setRate(initialRate);
 		Button btn_home = new Button("Return Home");
 		btn_home.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg){
@@ -166,6 +168,7 @@ public abstract class Model {
 	}
 
 	public Slider createSpeedSlider() {
+		initialRate = animation.getRate();
 		speedSlide = new Slider();
 		speedSlide.setMin(minSimSpeed);
 		speedSlide.setMax(maxSimSpeed);
