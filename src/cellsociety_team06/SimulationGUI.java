@@ -18,14 +18,11 @@ public class SimulationGUI {
 	private double initialRate;
 	
 	private Slider speedSlide;
-//	private ResourceBundle myResources;
-
 	private Timeline animation;
 	
 	public SimulationGUI(Timeline t) {
 		animation = t;
 		initialRate = animation.getCurrentRate();
-		//myResources = r;
 	}
 	
 	public Button createResetBtn(Model model){
