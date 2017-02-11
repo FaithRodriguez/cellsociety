@@ -1,34 +1,39 @@
+/**
+ *Co-Written by all
+ */
+
 package cellsociety_team06;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 import java.util.Scanner;
-
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import subUnits.Blank;
+import subUnits.Alive;
+
+import subUnits.Burning;
+import subUnits.Burnt;
 
 public abstract class Model {
 	
 	private Stage myStage;
 	private Timeline animation;
-	private Group root;
 	private ResourceBundle myResources;
-	
+	protected Group root;
 	private double initialRate;
 	private Slider speedSlide;
+	private ResourceBundle myResources;
+	protected Grid curGrid, nextGrid;
 	
 	private final double minSimSpeed = 1;
 	private final double maxSimSpeed = 35;
@@ -40,11 +45,14 @@ public abstract class Model {
 		animation = t;
 		myResources = r;
 		initialRate = animation.getCurrentRate();
+		root = new Group();
 	}
 	
 	//methods
 	
-	public abstract Group getRoot(); //creates the scene with the new units
+	public Group getRoot(){
+		return root;
+	}
 	
 	public abstract void setNextScene(); //within the subclasses, there will be a current scene and next scene
 	
@@ -54,6 +62,11 @@ public abstract class Model {
 	
 	public void step(){
 		setNextScene();
+	}
+	
+	protected void resetRoot(){
+		root.getChildren().clear();
+		root.getChildren().addAll(curGrid.getChildren());
 	}
 	
 	public Button createHowToPlayBtn(String instr, Scene lastScene){ //pass in the text file of the rules and current scene to go back to
@@ -78,7 +91,7 @@ public abstract class Model {
 					e.printStackTrace();
 				}
 				
-				Button btn_done = new Button("Done");
+				Button btn_done = new Button("Done!");
 				btn_howToPlay.setOnAction(new EventHandler<ActionEvent>() { 
 					public void handle(ActionEvent arg){
 						myStage.setScene(lastScene);
@@ -95,10 +108,11 @@ public abstract class Model {
 	}
 	
 	public Button createResetBtn(){
-		animation.setRate(initialRate);
 		Button btn_reset = new Button("Reset");
 		btn_reset.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg){
+				speedSlide.setValue(minSimSpeed);
+				animation.setRate(initialRate);
 				animation.pause();
 				reset();
 			}
@@ -136,11 +150,12 @@ public abstract class Model {
 		Button btn_home = new Button("Return Home");
 		btn_home.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg){
+				animation.setRate(initialRate);
 				animation.stop();
 				reset();
 				myStage.setScene(homeScene);
 			}
-		});
+		}); 
 		
 		return btn_home;
 	}
