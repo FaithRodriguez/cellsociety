@@ -62,6 +62,7 @@ public class CellSociety extends Application {
 	private Button btn_small;
 	private Button btn_medium;
 	private Button btn_large;
+	
 	private String lifeFile = "lifeinfo.txt";
 	private String fireFile = "fireinfo.txt";
 	private String watorFile = "watorinfo.txt";
@@ -130,7 +131,7 @@ public class CellSociety extends Application {
 		shape = setup.createShapeButtons(shapeRoot, mySizeScene);
 		return myShapeScene;
 	}
-	
+
 	private Scene askSizeScene(){	
 		Group sizeSceneRoot = new Group();
 		mySizeScene = new Scene(sizeSceneRoot, SIZE, SIZE, BACKGROUND);

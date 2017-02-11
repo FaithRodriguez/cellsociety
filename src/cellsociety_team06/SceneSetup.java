@@ -36,7 +36,7 @@ public class SceneSetup {
 		resources = resourcesPackage;
 		s = stage;
 	}
-	
+
 	public Button createSimButton(Pane root, String label) {
 		FlowPane buttons = (FlowPane) root;
 		buttons.setVgap(50);
